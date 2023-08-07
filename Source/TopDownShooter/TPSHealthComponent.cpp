@@ -41,7 +41,7 @@ void UTPSHealthComponent::ReceiveDamage(float Damage)
 {
 	Health -= Damage;
 	OnHealthChange.Broadcast(Health, Damage); 
-	if (Health < 0.0f)
+	if (Health <= 0.0f)
 	{
 		DeadEvent();
 	}
@@ -50,4 +50,5 @@ void UTPSHealthComponent::ReceiveDamage(float Damage)
 
 void UTPSHealthComponent::DeadEvent_Implementation()
 {
+	OnDead.Broadcast();
 }
