@@ -18,5 +18,5 @@ class TOPDOWNSHOOTER_API UTPSCharacterHealthComponent : public UTPSHealthCompone
 
 public:
 
-	void ReceiveDamage(float Damage) override;
+	void ChangeCurrentHealth(float ChangeValue) override;
 };

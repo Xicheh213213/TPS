@@ -7,6 +7,7 @@
 #include "Types.h"
 #include "WeaponDefault.h"
 #include "TPSInventoryComponent.h"
+#include "TPSCharacterHealthComponent.h"
 #include "TopDownShooterCharacter.generated.h"
 
 UCLASS(Blueprintable)
@@ -33,6 +34,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UTPSInventoryComponent* InventoryComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class UTPSCharacterHealthComponent* HealthComponent;
 
 private:
 	/** Top down camera */

@@ -3,8 +3,8 @@
 
 #include "TPSCharacterHealthComponent.h"
 
-void UTPSCharacterHealthComponent::ReceiveDamage(float Damage)
+void UTPSCharacterHealthComponent::ChangeCurrentHealth(float ChangeValue)
 {
-Super::ReceiveDamage(Damage);
+Super::ChangeCurrentHealth(ChangeValue);
 
 }
