@@ -19,6 +19,10 @@ void AMagazinDefault::BulletCollisionSphereHit(UPrimitiveComponent* HitComp, AAc
 	Super::BulletCollisionSphereHit(HitComp, OtherActor, OtherComp, NormalImpulse, Hit);
 }
 
+void AMagazinDefault::ImpactProjectile()
+{
+}
+
 void AMagazinDefault::MagazinLogic()
 {
 	if (MagazinSetting.MagazinFX)
@@ -29,6 +33,5 @@ void AMagazinDefault::MagazinLogic()
 	{
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), MagazinSetting.MagazinSound, GetActorLocation());
 	}
-
-	this->Destroy();
+	TArray<AActor*> IgnoredActor;
 }

@@ -19,6 +19,7 @@ protected:
 public:
 	ATopDownShooterCharacter();
 
+	FTimerHandle TimerHandle_RagDollTimer;
 	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;
 	
@@ -56,6 +57,12 @@ public:
 		EMovementState MovementState = EMovementState::Run_State;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 		FCharacterSpeed MovementInfo;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Alive")
+		bool bIsAlive = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Alive")
+		TArray<UAnimMontage*> DeadsAnim;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cursor")
 		UMaterialInterface* CursorMaterial = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cursor")
@@ -109,12 +116,17 @@ public:
 		UFUNCTION(BlueprintCallable)
 		void TryReloadWeapon();
 		UFUNCTION(BlueprintCallable)
-			void TrySwitchNextWeapon();
-		UFUNCTION(BlueprintCallable)
-			void TrySwitchPreviosWeapon();
-		UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-			int32 CurrentIndexWeapon = 0;
-	UFUNCTION(BlueprintCallable)
 		UDecalComponent* GetCursorToWorld();
+		UFUNCTION(BlueprintCallable)
+		void TrySwitchNextWeapon();
+		UFUNCTION(BlueprintCallable)
+		void TrySwitchPreviosWeapon();
+		UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+		int32 CurrentIndexWeapon = 0;
+		UFUNCTION(BlueprintCallable)
+		void CharDead();
+		virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+		void EnableRagDoll();
+
 };
 

@@ -223,6 +223,7 @@ void AWeaponDefault::Fire()
 	AddicionalWeaponInfo.Round = AddicionalWeaponInfo.Round - 1;
 	ChangeDispersionByShot();
 	OnWeaponFireStart.Broadcast();
+	bool bDoOnce = true;
 	if(GetWeaponRound()<=0 && !WeaponReloading)
 	{
 		if (CheckCanWeaponReload())
@@ -252,7 +253,10 @@ void AWeaponDefault::Fire()
 				SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 				SpawnParams.Owner = GetOwner();
 				SpawnParams.Instigator = GetInstigator();
-				AGilzaDefault* myGilza = Cast<AGilzaDefault>(GetWorld()->SpawnActor(GilzaInfo.Gilza, &GilzaSpawnLocation, &GilzaSpawnRotation,SpawnParams));
+				if(bDoOnce)
+				{
+					AGilzaDefault* myGilza = Cast<AGilzaDefault>(GetWorld()->SpawnActor(GilzaInfo.Gilza, &GilzaSpawnLocation, &GilzaSpawnRotation, SpawnParams));
+				}
 				AProjectileDefault* myProjectile = Cast<AProjectileDefault>(GetWorld()->SpawnActor(ProjectileInfo.Projectile, &SpawnLocation, &SpawnRotation, SpawnParams));
 				if (myProjectile)
 				{
@@ -265,13 +269,24 @@ void AWeaponDefault::Fire()
 			{
 				FHitResult Hit;
 				TArray<AActor*> Actors;
+				EDrawDebugTrace::Type DebugTrace;
+				if (ShowDebug)
+				{
+					DrawDebugLine(GetWorld(), SpawnLocation, SpawnLocation + ShootLocation->GetForwardVector() * WeaponSetting.DistacneTrace, FColor::Black, false, 5.f, (uint8)'\000', 0.5f);
+					DebugTrace = EDrawDebugTrace::ForDuration;
+				}
+				else
+					DebugTrace = EDrawDebugTrace::None;
 				UKismetSystemLibrary::LineTraceSingle(GetWorld(), SpawnLocation, EndLocation * WeaponSetting.DistacneTrace,
-					ETraceTypeQuery::TraceTypeQuery4, false, Actors, EDrawDebugTrace::ForDuration, Hit, true, FLinearColor::Red, FLinearColor::Green, 5.0f);
+					ETraceTypeQuery::TraceTypeQuery4, false, Actors, DebugTrace, Hit, true, FLinearColor::Red, FLinearColor::Green, 5.0f);
 				FActorSpawnParameters SpawnParams;
 				SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 				SpawnParams.Owner = GetOwner();
 				SpawnParams.Instigator = GetInstigator();
-				AGilzaDefault* myGilza = Cast<AGilzaDefault>(GetWorld()->SpawnActor(GilzaInfo.Gilza, &GilzaSpawnLocation, &GilzaSpawnRotation, SpawnParams));
+				if(bDoOnce)
+				{
+					AGilzaDefault* myGilza = Cast<AGilzaDefault>(GetWorld()->SpawnActor(GilzaInfo.Gilza, &GilzaSpawnLocation, &GilzaSpawnRotation, SpawnParams));
+				}
 				if (ShowDebug)
 				{
 					DrawDebugLine(GetWorld(), SpawnLocation, SpawnLocation + ShootLocation->GetForwardVector() * WeaponSetting.DistacneTrace, FColor::Black, false, 5.f, (uint8)'\000', 0.5f);
@@ -302,11 +317,11 @@ void AWeaponDefault::Fire()
 					}
 					UGameplayStatics::ApplyDamage(Hit.GetActor(), WeaponSetting.ProjectileSetting.ProjectileDamage, GetInstigatorController(), this, NULL);
 				}
+				bDoOnce = false;
 			}
 		}
 		
 	}
-  
 }
 
 void AWeaponDefault::UpdateStateWeapon(EMovementState NewMovementState)

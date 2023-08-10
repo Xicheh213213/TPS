@@ -9,3 +9,9 @@ ATopDownShooterGameMode::ATopDownShooterGameMode()
 {
 	
 }
+
+void ATopDownShooterGameMode::PlayerCharacterDead()
+{
+}
+
+

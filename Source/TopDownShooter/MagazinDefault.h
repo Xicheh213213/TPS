@@ -23,5 +23,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void BulletCollisionSphereHit(class UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	virtual void ImpactProjectile() override;
 	void MagazinLogic();
 };

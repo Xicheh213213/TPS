@@ -20,6 +20,10 @@ void AGilzaDefault::BulletCollisionSphereHit(UPrimitiveComponent* HitComp, AActo
 	Super::BulletCollisionSphereHit(HitComp, OtherActor, OtherComp, NormalImpulse, Hit);
 }
 
+void AGilzaDefault::ImpactProjectile()
+{
+}
+
 void AGilzaDefault::GilzaLogic()
 {
 	if (GilzaSetting.GilzaFx)
@@ -31,5 +35,5 @@ void AGilzaDefault::GilzaLogic()
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), GilzaSetting.GilzaSound, GetActorLocation());
 	}
 
-	this->Destroy();
+	TArray<AActor*> IgnoredActor;
 }

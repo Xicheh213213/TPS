@@ -13,6 +13,7 @@ class ATopDownShooterGameMode : public AGameModeBase
 
 public:
 	ATopDownShooterGameMode();
+	void PlayerCharacterDead();
 };
 
 
